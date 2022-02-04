@@ -1,11 +1,15 @@
+import React, { useEffect, useState } from "react";
 
+//scripts
+import { parseRssFedd } from "./scripts/parseRSSFeeds";
 
 function App() {
-  return (
-    <div className="App">
+  const [resultsFeed, setResultsFeed] = useState();
+  useEffect(() => {
+    parseRssFedd().then((res) => setResultsFeed(res));
+  }, []);
 
-    </div>
-  );
+  return <div className="App"></div>;
 }
 
 export default App;
