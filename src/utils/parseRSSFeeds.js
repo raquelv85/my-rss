@@ -8,6 +8,12 @@ const getCategories = (categories) => {
   return allCategories;
 };
 
+const slugify = (text) => {
+    return text.toLowerCase()
+               .replace(/ /g, '-')
+               .replace(/[^\w-]+/g, '');
+}
+
 export const parseRssFedd = () => {
   let feedInfo = {};
   let articles = [];
@@ -19,7 +25,7 @@ export const parseRssFedd = () => {
 
       feedInfo = {
         title: data.querySelector("title").textContent,
-        description: data.querySelector("description").textContent,
+        description: data.querySelector("description").textContent
       };
       items.forEach((el) => {
         console.log({ el });
@@ -27,6 +33,7 @@ export const parseRssFedd = () => {
           ...articles,
           {
             title: el.querySelector("title").textContent,
+            slug: slugify(el.querySelector("title").textContent),
             author: el.querySelector("author").textContent,
             link: el.querySelector("link").textContent,
             description: el.querySelector("description").textContent,
