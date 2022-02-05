@@ -1,5 +1,13 @@
 import { urls } from "../constants/urls";
 
+const getCategories = (categories) => {
+  let allCategories = [];
+  categories.forEach((category) => {
+    allCategories = [...allCategories, category.textContent];
+  });
+  return allCategories;
+};
+
 export const parseRssFedd = () => {
   let feedInfo = {};
   let articles = [];
@@ -8,19 +16,24 @@ export const parseRssFedd = () => {
     .then((str) => new window.DOMParser().parseFromString(str, "text/xml"))
     .then((data) => {
       const items = data.querySelectorAll("item");
+
       feedInfo = {
-        title: data.querySelector("title").innerHTML,
-        description: data.querySelector("description").innerHTML,
+        title: data.querySelector("title").textContent,
+        description: data.querySelector("description").textContent,
       };
       items.forEach((el) => {
-        articles.push({
-          title: el.querySelector("title").innerHTML,
-          author: el.querySelector("author").innerHTML,
-          link: el.querySelector("link").innerHTML,
-          description: el.querySelector("description").innerHTML,
-          categories: el.querySelectorAll("category"),
-          date: el.querySelector("pubDate").innerHTML,
-        });
+        console.log({ el });
+        articles = [
+          ...articles,
+          {
+            title: el.querySelector("title").textContent,
+            author: el.querySelector("author").textContent,
+            link: el.querySelector("link").textContent,
+            description: el.querySelector("description").textContent,
+            categories: getCategories(el.querySelectorAll("category")),
+            date: el.querySelector("pubDate").textContent,
+          },
+        ];
       });
       feedInfo.articles = articles;
 
