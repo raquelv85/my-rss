@@ -28,7 +28,6 @@ export const parseRssFedd = () => {
         description: data.querySelector("description").textContent
       };
       items.forEach((el) => {
-        console.log({ el });
         articles = [
           ...articles,
           {

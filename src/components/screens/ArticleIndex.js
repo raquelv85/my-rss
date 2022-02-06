@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import InputBase from "@mui/material/InputBase";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 //components
 import { Article } from "../Article";
@@ -12,6 +16,7 @@ export const ArticleIndex = (props) => {
   const { resultsFeed } = props;
 
   const [searchValue, setSearchValue] = useState("");
+  const [getCategory, setGetCategory] = useState("");
 
   const searchArticle = () => {
     let filterArticle = resultsFeed.articles;
@@ -21,9 +26,34 @@ export const ArticleIndex = (props) => {
         elem.title.toUpperCase().includes(searchValue.toUpperCase())
       );
     }
-   
+
+    if(getCategory !== ""){
+      
+      filterArticle = resultsFeed.articles.filter((elem) =>
+        elem.categories.some(category => category === getCategory)
+      );
+    }
+    
     return filterArticle;
   };
+
+  const getCategories = () => {
+    let allCategories = [];
+    let categories = [];
+
+    resultsFeed.articles.forEach((element) => {
+      allCategories = allCategories.concat(element.categories);
+    });
+
+    allCategories.forEach((element) => {
+      if (!categories.includes(element)) {
+        categories = categories.concat(element);
+      }
+    });
+
+    return categories.sort();
+  };
+
 
   return (
     <div className="App">
@@ -45,6 +75,21 @@ export const ArticleIndex = (props) => {
           <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
             <SearchIcon />
           </IconButton>
+          <FormControl fullWidth variant="standard">
+            {Object.keys(resultsFeed).length > 0 && (
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                //value={10}
+                label="Age"
+                onChange={(e) => setGetCategory(e.target.value)}
+              >
+                {getCategories().map((category, index) => {
+                  return <MenuItem value={category}>{category}</MenuItem>;
+                })}
+              </Select>
+            )}
+          </FormControl>
         </Paper>
       </form>
 
