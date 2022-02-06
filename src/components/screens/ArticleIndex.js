@@ -10,7 +10,7 @@ export const ArticleIndex = (props) => {
     <div className="App">
       {Object.keys(resultsFeed).length > 0 &&
         resultsFeed.articles.map((article, indexArt) => {
-          return <Article article={article} />;
+          return <Article key={indexArt} article={article} />;
         })}
     </div>
   );
