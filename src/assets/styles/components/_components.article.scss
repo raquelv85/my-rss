@@ -26,13 +26,20 @@
     cursor: pointer;
   }
 
+  &__like--detail {
+    margin-bottom: 1.6rem;
+    margin-top: 2.4rem;
+  }
+
   &__categories {
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 3.2rem;
   }
 
   &__categories__item {
     margin-right: 1rem;
+    font-weight: 700;
   }
 
   &__description {

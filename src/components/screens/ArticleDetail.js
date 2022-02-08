@@ -38,7 +38,7 @@ export const ArticleDetail = (props) => {
           <p className="article__info">{formatDate}</p>
           {likes && (
             <div
-              className="article__like"
+              className="article__like article__like--detail"
               onClick={() => handleLike(article.slug)}
             >
               {likes.includes(article.slug) ? (

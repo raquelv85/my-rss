@@ -9,6 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
+import CloseIcon from "@mui/icons-material/Close";
 
 //components
 import { Article } from "../Article";
@@ -19,7 +20,7 @@ export const ArticleIndex = (props) => {
   const [searchValue, setSearchValue] = useState("");
   const [getCategory, setGetCategory] = useState("");
 
-  const searchArticle = () => {
+  const searchArticle = (reset = false) => {
     let filterArticle = resultsFeed.articles;
 
     if (searchValue !== "") {
@@ -32,6 +33,10 @@ export const ArticleIndex = (props) => {
       filterArticle = resultsFeed.articles.filter((elem) =>
         elem.categories.some((category) => category === getCategory)
       );
+    }
+
+    if (reset) {
+      filterArticle = resultsFeed.articles;
     }
 
     return filterArticle;
@@ -52,6 +57,11 @@ export const ArticleIndex = (props) => {
     });
 
     return categories.sort();
+  };
+
+  const handleReset = () => {
+    setSearchValue("");
+    setGetCategory("");
   };
 
   return (
@@ -99,12 +109,27 @@ export const ArticleIndex = (props) => {
                   onChange={(e) => setGetCategory(e.target.value)}
                 >
                   {getCategories().map((category, index) => {
-                    return <MenuItem value={category}>{category}</MenuItem>;
+                    return (
+                      <MenuItem key={index} value={category}>
+                        {category}
+                      </MenuItem>
+                    );
                   })}
                 </Select>
               )}
             </FormControl>
           </div>
+          {getCategory !== "" && (
+            <div
+              className="block-filter__box-select"
+              onClick={() => handleReset()}
+            >
+              <p className="block-filter__box-select__text">{getCategory} </p>
+              <span>
+                <CloseIcon sx={{ fontSize: 16 }} />
+              </span>
+            </div>
+          )}
         </div>
         <section className="block-article">
           {Object.keys(resultsFeed).length > 0 &&
