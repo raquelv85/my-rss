@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-import InputBase from "@mui/material/InputBase";
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
+//material ui
 import SearchIcon from "@mui/icons-material/Search";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import CloseIcon from "@mui/icons-material/Close";
+import InputLabel from '@mui/material/InputLabel';
 
 //components
 import { Article } from "../Article";
@@ -74,21 +72,12 @@ export const ArticleIndex = (props) => {
       </header>
       <main className="main">
         <div className="block-filter">
-          <div className="block-filter__element">
-            {/* <InputBase
-              //sx={{ ml: 1, flex: 1 }}
-              variant="standard"
-              fullWidth
-              placeholder="Search article"
-              inputProps={{ "aria-label": "search article" }}
-              onChange={(e) => setSearchValue(e.target.value)}
-            />
-            <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
-              <SearchIcon />
-            </IconButton> */}
-
+          <div className="block-filter__element block-filter__element--left">
             <TextField
-              inputProps={{ "aria-label": "search article" }}
+              inputProps={{
+                "aria-label": "search article",
+                style: { fontSize: "16px" },
+              }}
               fullWidth
               placeholder="Search article"
               variant="standard"
@@ -100,17 +89,24 @@ export const ArticleIndex = (props) => {
           </div>
           <div className="block-filter__element">
             <FormControl fullWidth variant="standard">
+            <InputLabel style={{ fontSize: 16,  }} id="demo-simple-select-label">Select category</InputLabel>
               {Object.keys(resultsFeed).length > 0 && (
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  //value={}
+                  label="Select Category"
+                  value={getCategory}
+                  style={{ fontSize: 16 }}
                   label="Age"
                   onChange={(e) => setGetCategory(e.target.value)}
                 >
                   {getCategories().map((category, index) => {
                     return (
-                      <MenuItem key={index} value={category}>
+                      <MenuItem
+                        style={{ fontSize: 16 }}
+                        key={index}
+                        value={category}
+                      >
                         {category}
                       </MenuItem>
                     );
