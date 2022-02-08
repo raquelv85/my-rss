@@ -1,8 +1,19 @@
 import React from "react";
+
+//react router
 import { Link } from "react-router-dom";
+
+//custom hook
+import { useLike } from "../hooks/useLike";
+
+//material ui lib
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 export const Article = (props) => {
   const { article } = props;
+
+  const [likes] = useLike([]);
 
   const formatDate = new Date(article.date).toLocaleString()
 
@@ -26,11 +37,17 @@ export const Article = (props) => {
             );
           })}
         </div>
-
-        {/* <div
-        dangerouslySetInnerHTML={{ __html: article.description }}
-      ></div> */}
-        <br />
+        {likes && (
+            <div
+              className="article__like"
+            >
+              {likes.includes(article.slug) ? (
+                <FavoriteIcon sx={{ fontSize: 28 }} />
+              ) : (
+                <FavoriteBorderIcon sx={{ fontSize: 28 }} />
+              )}
+            </div>
+          )}
       </>
     </Link>
   );

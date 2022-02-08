@@ -1,40 +1,32 @@
 import React, { useState, useEffect } from "react";
+
+//react router
 import { useParams } from "react-router-dom";
+
+//material ui lib
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
+//custom hook
+import { useLike } from "../../hooks/useLike";
+
 export const ArticleDetail = (props) => {
   const [article, setArticle] = useState({});
-  const [articlesLiked, setArticlesLiked] = useState([]);
   const { id } = useParams();
   const { resultsFeed } = props;
 
-  const formatDate = new Date(article.date).toLocaleString()
+  const [likes, handleLike] = useLike([]);
+
+  const formatDate = new Date(article.date).toLocaleString();
 
   const getArticle = () => {
     return resultsFeed.articles.find((article) => article.slug === id);
-  };
-
-  const handleLike = (slug) => {
-    let newArticlesLiked = [...articlesLiked];
-    let index = newArticlesLiked.findIndex((elem) => elem === slug);
-
-    if (index !== -1) {
-      newArticlesLiked.splice(index, 1);
-    } else {
-      newArticlesLiked = [...newArticlesLiked, slug];
-    }
-
-    setArticlesLiked(newArticlesLiked);
-    localStorage.setItem("articles", JSON.stringify(newArticlesLiked));
   };
 
   useEffect(() => {
     if (Object.keys(resultsFeed).length > 0) {
       setArticle(getArticle());
     }
-
-    setArticlesLiked(JSON.parse(localStorage.getItem("articles")) || []);
   }, [resultsFeed]);
 
   return (
@@ -44,21 +36,25 @@ export const ArticleDetail = (props) => {
           <h2 className="article__title">{article.title}</h2>
           <p className="article__info">{article.author}</p>
           <p className="article__info">{formatDate}</p>
-          <div
-            className="article__like"
-            onClick={() => handleLike(article.slug)}
-          >
-            {articlesLiked.includes(article.slug) ? (
-              <FavoriteBorderIcon sx={{ fontSize: 32 }} />
-            ) : (
-              <FavoriteIcon sx={{ fontSize: 32 }} />
-            )}
-          </div>
+          {likes && (
+            <div
+              className="article__like"
+              onClick={() => handleLike(article.slug)}
+            >
+              {likes.includes(article.slug) ? (
+                <FavoriteIcon sx={{ fontSize: 32 }} />
+              ) : (
+                <FavoriteBorderIcon sx={{ fontSize: 32 }} />
+              )}
+            </div>
+          )}
+
           <div className="article__categories">
             {article.categories.map((category, indexCat) => {
               return (
                 <>
-                  <p className="article__categories__item">{`#${category}`}</p> <br />
+                  <p className="article__categories__item">{`#${category}`}</p>{" "}
+                  <br />
                 </>
               );
             })}
