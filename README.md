@@ -4,6 +4,7 @@
 </p>
 
 > RSS reader (Really Simple Syndication) to show updated information to users who have subscribed to a content source. The content source is in XML format and the content has been parsed with JS to be able to display it in web format.)
+> the project has been developed in react js with libraries such as sass, material ui and react router
 
 ## Install
 
