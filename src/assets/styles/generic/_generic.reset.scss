@@ -1,0 +1,107 @@
+/* ==========================================================================
+   #RESET
+   ========================================================================== */
+
+/**
+ * A very simple reset that sits on top of Normalize.css.
+ */
+
+ html ,
+ * {
+   box-sizing: border-box;
+ }
+ 
+ 
+ 
+ /**
+  * Remove outline on focused element 
+  */
+ 
+ * 
+ *:focus,
+ *:active{
+   outline: 0 !important;
+ }
+ 
+ 
+ 
+ body,
+ h1, h2, h3, h4, h5, h6,
+ blockquote, p, pre,
+ dl, dd, ol, ul,
+ figure,
+ hr,
+ fieldset, legend {
+   margin:  0;
+   padding: 0;
+ }
+ 
+ 
+ 
+ /**
+  * Remove links underline 
+  */
+ 
+ a {
+   text-decoration: none;
+ }
+ 
+ /**
+  * Remove list decoration 
+  */
+ 
+ ol ,
+ ul {
+     list-style: none;
+ }
+ 
+ /**
+  * Ordered list with styles
+  */
+ ol {
+     li {
+         &:before {
+             counter-increment: main-counter;
+             content: counter(main-counter);
+             padding-right: .8rem;
+         }
+     }
+ }
+ 
+ 
+ /**
+  * Remove trailing margins from nested lists.
+  */
+ 
+ li > {
+ 
+   ol,
+   ul {
+     margin-bottom: 0;
+   }
+ 
+ }
+ 
+ 
+ 
+ /**
+  * Remove default table spacing.
+  */
+ 
+ table {
+   border-collapse: collapse;
+   border-spacing: 0;
+ }
+ 
+ 
+ 
+ /**
+  * 1. Reset Chrome and Firefox behaviour which sets a `min-width: min-content;`
+  *    on fieldsets.
+  */
+ 
+ fieldset {
+   min-width: 0; /* [1] */
+   border: 0;
+ }
+ 

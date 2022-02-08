@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 export const ArticleDetail = (props) => {
   const [article, setArticle] = useState({});
-  const [articlesLiked, setArticlesLiked] = useState([])
+  const [articlesLiked, setArticlesLiked] = useState([]);
   const { id } = useParams();
   const { resultsFeed } = props;
+
+  const formatDate = new Date(article.date).toLocaleString()
 
   const getArticle = () => {
     return resultsFeed.articles.find((article) => article.slug === id);
@@ -21,7 +25,7 @@ export const ArticleDetail = (props) => {
       newArticlesLiked = [...newArticlesLiked, slug];
     }
 
-    setArticlesLiked(newArticlesLiked)
+    setArticlesLiked(newArticlesLiked);
     localStorage.setItem("articles", JSON.stringify(newArticlesLiked));
   };
 
@@ -30,28 +34,40 @@ export const ArticleDetail = (props) => {
       setArticle(getArticle());
     }
 
-    setArticlesLiked(JSON.parse(localStorage.getItem("articles")) || [])
+    setArticlesLiked(JSON.parse(localStorage.getItem("articles")) || []);
   }, [resultsFeed]);
 
   return (
-    <div>
+    <div className="article article--detail">
       {Object.keys(article).length > 0 && (
         <>
-          <h2>{article.title}</h2>
-          <p>{article.author}</p>
-          <p>{article.date}</p>
-      <div onClick={() => handleLike(article.slug)}>{articlesLiked.includes(article.slug) ? "dislike" : "like"}</div>
-          <div>
+          <h2 className="article__title">{article.title}</h2>
+          <p className="article__info">{article.author}</p>
+          <p className="article__info">{formatDate}</p>
+          <div
+            className="article__like"
+            onClick={() => handleLike(article.slug)}
+          >
+            {articlesLiked.includes(article.slug) ? (
+              <FavoriteBorderIcon sx={{ fontSize: 32 }} />
+            ) : (
+              <FavoriteIcon sx={{ fontSize: 32 }} />
+            )}
+          </div>
+          <div className="article__categories">
             {article.categories.map((category, indexCat) => {
               return (
                 <>
-                  <p>{category}</p> <br />
+                  <p className="article__categories__item">{`#${category}`}</p> <br />
                 </>
               );
             })}
           </div>
 
-          <div dangerouslySetInnerHTML={{ __html: article.description }}></div>
+          <div
+            className="article__description"
+            dangerouslySetInnerHTML={{ __html: article.description }}
+          ></div>
           <br />
         </>
       )}
